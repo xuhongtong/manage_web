@@ -26,8 +26,8 @@ def init_mail(app):
     app.config['MAIL_PORT'] = 465
     app.config['MAIL_USE_SSL'] = True
     app.config['MAIL_USE_TLS'] = False
-    app.config['MAIL_USERNAME'] = 'jingyetong@163.com'
-    app.config['MAIL_PASSWORD'] = 'jinye123'
+    app.config['MAIL_USERNAME'] = 'xxx'
+    app.config['MAIL_PASSWORD'] = 'xxx'
     mail.init_app(app=app)
 
 

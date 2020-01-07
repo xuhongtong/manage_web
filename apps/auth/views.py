@@ -93,7 +93,6 @@ def login():
         if is_vaild_login(request.form.get('username'), request.form.get('password')):
             if is_active_login(request.form.get('username')):
                 # 是否勾选记住账号
-                print(request.form.get('remember'))
                 if request.form.get('remember'):
                     session['remember_username'] = request.form['username']
                     session['is_remember'] = 'on'
@@ -121,7 +120,6 @@ def login():
         'remember_username': session.get('remember_username'),
         'is_remember': session.get('is_remember')
     }
-    print(content)
     return render_template('login/login.html', **content)
 
 
