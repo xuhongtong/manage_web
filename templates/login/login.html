@@ -23,11 +23,24 @@
                     <div class="card fat">
                         <div class="card-body">
                             <h4 class="card-title">Login</h4>
+                            {% if error %}
+                                <h4 class="card-title" style="color: red">{{ error }}</h4>
+                            {% endif %}
                             <form action="{{ url_for('user.login') }}" method="POST">
                                 <div class="form-group">
                                     <label for="name">Username</label>
-                                    <input id="name" type="text" class="form-control" name="username" required
-                                           autofocus>
+                                    {% if username %}
+                                        <input id="name" type="text" class="form-control" name="username" required
+                                               autofocus value="{{ username  }}">
+                                    {% else %}
+                                        {% if remember_username %}
+                                            <input id="name" type="text" class="form-control" name="username" required
+                                                   autofocus value="{{ remember_username }}">
+                                        {% else %}
+                                            <input id="name" type="text" class="form-control" name="username" required
+                                                   autofocus>
+                                        {% endif %}
+                                    {% endif %}
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password
@@ -39,8 +52,19 @@
                                            data-eye>
                                 </div>
                                 <div class="form-group">
+                                    <label for="captcha">Captcha</label>
+                                    <input id="captcha" type="text" class="form-control" name="captcha" required
+                                           autofocus><img src="{{ url_for('user.get_code') }}"
+                                                          onclick="this.src='{{ url_for("user.get_code") }}?'+Math.random()">
+
+                                </div>
+                                <div class="form-group">
                                     <label>
-                                        <input type="checkbox" name="remember"> Remember Me
+                                        {% if not is_remember %}
+                                            <input type="checkbox" name="remember"> Remember Me
+                                        {% else %}
+                                            <input type="checkbox" name="remember" value="1" checked> Remember Me
+                                        {% endif %}
                                     </label>
                                 </div>
                                 <div class="form-group no-margin">

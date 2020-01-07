@@ -29,13 +29,13 @@ class User(db.Model):
             return False
         # 没有激活时才需要激活
         if not u.is_vaild:
-            u.is_vaild=1
+            u.is_vaild = 1
             db.session.add(u)
             db.session.commit()
         return True
 
     @staticmethod
-    def reset_password(token,password):
+    def reset_password(token, password):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
@@ -46,10 +46,9 @@ class User(db.Model):
             # 用户已被删除
             return False
         else:
-            u.password=password
+            u.password = password
             db.session.commit()
             return True
-
 
     def __repr__(self):
         return '<User %r>' % self.username

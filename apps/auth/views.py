@@ -1,14 +1,25 @@
 from functools import wraps
+from io import BytesIO
 from operator import and_
-from flask import redirect, url_for, request, Blueprint, flash, session
+from flask import redirect, url_for, request, Blueprint, flash, make_response
 from sqlalchemy import or_
 from apps.auth.models import User
 from flask import render_template
-
+from flask import session
 from apps.ext import db
+from apps.utils.captcha import get_verify_code
 from apps.utils.mail import send_activate_mail, send_reset_mail
+import hashlib
 
 user = Blueprint('user', __name__, template_folder='templates', static_folder='static')
+
+
+# md5加密
+def my_md5(s, salt=''):
+    s += salt
+    news = str(s).encode()
+    m = hashlib.md5(news)
+    return m.hexdigest()
 
 
 # 访问前验证是否登录
@@ -26,7 +37,7 @@ def login_required(func):
 
 # 登录检验（用户名、密码是否正确）
 def is_vaild_login(username, password):
-    user = User.query.filter(and_(User.username == username, User.password == password)).first()
+    user = User.query.filter(and_(User.username == username, User.password == my_md5(password))).first()
     if user:
         return True
     else:
@@ -51,6 +62,23 @@ def valid_register(username, email):
         return True
 
 
+# 验证码
+@user.route('/code')
+def get_code():
+    session.pop('image', None)
+    image, str = get_verify_code()
+    # 将验证码图片以二进制形式写入在内存中，防止将图片都放在文件夹中，占用大量磁盘
+    buf = BytesIO()
+    image.save(buf, 'jpeg')
+    buf_str = buf.getvalue()
+    # 把二进制作为response发回前端，并设置首部字段
+    response = make_response(buf_str)
+    response.headers['Content-Type'] = 'image/gif'
+    # 将验证码字符串储存在session中
+    session['image'] = str
+    return response
+
+
 @user.route('/')
 @login_required
 def home():
@@ -62,27 +90,45 @@ def home():
 def login():
     error = None
     if request.method == 'POST':
-        if is_vaild_login(request.form['username'], request.form['password']):
-            if is_active_login(request.form['username']):
-                flash("成功登录！")
-                print('登录成功')
-                print(request.form.get('username'))
-                session['username'] = request.form.get('username')
-                print(session.get('username'))
-                session.permanent = True  #
-                return redirect(url_for('user.home'))
+        if is_vaild_login(request.form.get('username'), request.form.get('password')):
+            if is_active_login(request.form.get('username')):
+                # 是否勾选记住账号
+                print(request.form.get('remember'))
+                if request.form.get('remember'):
+                    session['remember_username'] = request.form['username']
+                    session['is_remember'] = 'on'
+                else:
+                    session.pop('is_remember', None)
+                    session.pop('remember_username', None)
+                # 取验证码
+                if session.get('image'):
+                    if session.get('image').lower() == request.form.get('captcha'):
+                        flash("成功登录！")
+                        session['username'] = request.form.get('username')
+                        return redirect(url_for('user.home'))
+                    else:
+                        error = '验证码错误'
+                else:
+                    error = '请输入验证码'
+
             else:
                 error = '账号未激活！'
         else:
-            error = '账号或密码错误'
-    return render_template('login/login.html', error=error)
+            error = '账号或密码错误!'
+    content = {
+        'error': error,
+        'username': request.form.get('username'),
+        'remember_username': session.get('remember_username'),
+        'is_remember': session.get('is_remember')
+    }
+    print(content)
+    return render_template('login/login.html', **content)
 
 
 # 3.注销
 @user.route('/logout')
 def logout():
     session.pop('username', None)
-    # session.clear()
     return redirect(url_for('user.home'))
 
 
@@ -94,7 +140,7 @@ def register():
         if request.form['password1'] != request.form['password2']:
             error = '两次密码不相同！'
         elif valid_register(request.form['username'], request.form['email']):
-            user = User(username=request.form['username'], password=request.form['password1'],
+            user = User(username=request.form['username'], password=my_md5(request.form['password1']),
                         email=request.form['email'])
             db.session.add(user)
             db.session.commit()

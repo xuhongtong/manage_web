@@ -1,15 +1,17 @@
-from flask_login import LoginManager
-from flask_mail import Mail
-from flask_sqlalchemy import SQLAlchemy
-from itsdangerous import URLSafeTimedSerializer
+import os
 
+import redis
+
+from flask_mail import Mail
+from flask_session import Session
+from flask_sqlalchemy import SQLAlchemy
 from config import mysql_info
 
 db = SQLAlchemy()
 mail = Mail()
+sess = Session()
 
-
-# 初始化数据库配置
+# 初始化数据库配置(SQLAlchemy)
 def init_db(app):
     app.config[
         'SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{mysql_info["username"]}:{mysql_info["password"]}@{mysql_info["host"]}:{mysql_info["port"]}/{mysql_info["database"]}'
@@ -18,7 +20,7 @@ def init_db(app):
     db.init_app(app)
 
 
-# 初始化邮件配置
+# 初始化邮件配置(Mail)
 def init_mail(app):
     app.config['MAIL_SERVER'] = 'smtp.163.com'
     app.config['MAIL_PORT'] = 465
@@ -29,14 +31,11 @@ def init_mail(app):
     mail.init_app(app=app)
 
 
-# 初始化login
-def init_login(app):
-    login_manager = LoginManager()
-    login_manager.session_protection = 'strong'
-    login_manager.login_view = 'login'
-    login_manager.init_app(app=app)
-
-
-def generate_confirmation_token(email, app):
-    serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-    return serializer.dumps(email, salt=app.config['SECURITY_PASSWORD_SALT'])
+# session 配置(Session)
+def init_session(app):
+    app.config['SESSION_TYPE'] = 'redis'  # session存储类型为redis
+    app.config['SESSION_REDIS'] = redis.StrictRedis(host='192.168.199.129', port=6379, db=1)
+    app.config['SESSION_USE_SIGNER'] = True  # 如果加盐，那么必须设置的安全码，盐
+    app.config['SECRET_KEY'] = os.urandom(24)  # 如果加盐，那么必须设置的安全码，盐
+    app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # session长期有效，则设定session生命周期，整数秒，默认大概不到3小时。
+    sess.init_app(app=app)
