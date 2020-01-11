@@ -26,12 +26,10 @@ def my_md5(s, salt=''):
 def login_required(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        # if g.user:
         if session.get('username'):
             return func(*args, **kwargs)
         else:
             return redirect(url_for('user.login', next=request.url))
-
     return wrapper
 
 
@@ -82,7 +80,7 @@ def get_code():
 @user.route('/')
 @login_required
 def home():
-    return render_template('login/index.html', username=session.get('username'))
+    return render_template('login/index.html',)
 
 
 # # 2.登录
@@ -104,7 +102,7 @@ def login():
                     if session.get('image').lower() == request.form.get('captcha'):
                         flash("成功登录！")
                         session['username'] = request.form.get('username')
-                        return redirect(url_for('user.home'))
+                        return redirect(url_for('blog.article'))
                     else:
                         error = '验证码错误'
                 else:
@@ -135,6 +133,7 @@ def logout():
 def register():
     error = None
     if request.method == 'POST':
+        db.create_all()
         if request.form['password1'] != request.form['password2']:
             error = '两次密码不相同！'
         elif valid_register(request.form['username'], request.form['email']):

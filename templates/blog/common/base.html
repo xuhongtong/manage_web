@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}{% endblock %}
+</head>
+<body>
+{% include 'blog/common/nav.html' %}
+<article>
+    {% include 'blog/common/aside.html' %}
+    {% block content %}{% endblock %}
+</article>
+{% include 'blog/common/footer.html' %}
+<a href="#" class="cd-top">Top</a>
+</body>
+</html>

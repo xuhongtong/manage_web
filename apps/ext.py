@@ -1,7 +1,7 @@
 import os
 
 import redis
-
+from flask_ckeditor import CKEditor
 from flask_mail import Mail
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
@@ -10,6 +10,8 @@ from config import mysql_info
 db = SQLAlchemy()
 mail = Mail()
 sess = Session()
+ckeditor = CKEditor()
+
 
 # 初始化数据库配置(SQLAlchemy)
 def init_db(app):
@@ -36,6 +38,11 @@ def init_session(app):
     app.config['SESSION_TYPE'] = 'redis'  # session存储类型为redis
     app.config['SESSION_REDIS'] = redis.StrictRedis(host='192.168.199.129', port=6379, db=1)
     app.config['SESSION_USE_SIGNER'] = True  # 如果加盐，那么必须设置的安全码，盐
-    app.config['SECRET_KEY'] = os.urandom(24)  # 如果加盐，那么必须设置的安全码，盐
+    app.config['SECRET_KEY'] = 'asfsdfffdfgdfsdfdfgggggdg'  # 如果加盐，那么必须设置的安全码，盐
     app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # session长期有效，则设定session生命周期，整数秒，默认大概不到3小时。
     sess.init_app(app=app)
+
+
+# CKEditor配置
+def init_ckeditor(app):
+    ckeditor.init_app(app=app)

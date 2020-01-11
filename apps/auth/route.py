@@ -8,6 +8,4 @@ def create_auth__register_blueprint(app):
     return app
 
 
-# 注册全局蓝图
-def create_register_blueprint(app):
-    create_auth__register_blueprint(app)
+

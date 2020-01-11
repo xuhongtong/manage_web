@@ -1,0 +1,86 @@
+{% extends 'common/blog_admin/base.html' %}
+{% block head %}
+<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 3 | Editors</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ url_for('static',filename='adminlte/plugins/fontawesome-free/css/all.min.css') }}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ url_for('static',filename='adminlte/dist/css/adminlte.min.css') }}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{{ url_for('static',filename='adminlte/plugins/summernote/summernote-bs4.css') }}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- jQuery -->
+<script src="{{ url_for('static',filename='adminlte/plugins/jquery/jquery.min.js') }}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{ url_for('static',filename='adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ url_for('static',filename='adminlte/dist/js/adminlte.min.js') }}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{ url_for('static',filename='adminlte/dist/js/demo.js') }}"></script>
+<!-- Summernote -->
+<script src="{{ url_for('static',filename='adminlte/plugins/summernote/summernote-bs4.min.js') }}"></script>
+<script>
+  $(function () {
+    // Summernote
+    $('.textarea').summernote()
+  })
+    </script>
+{% endblock %}
+{% block content %}
+<div class="content-wrapper">
+<section class="content-header">
+    <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>添加文章</h1>
+      </div>
+    </div>
+    </div>
+</section>
+<div class="card-body">
+    <form action="{{ url_for('blog.add_article') }}" method="post">
+        <div class="form-group">
+            <label for="inputName">标题</label>
+            <input type="text" id="inputName" class="form-control" name="title" placeholder="必填" required>
+        </div>
+        <div class="form-group">
+            <label for="category">选择类别</label>
+            <select id='category' class="form-control custom-select" name="category">
+                {% for i in content %}
+                <option>{{i.category}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="tag1">添加标签1</label>
+            <input type="text" id="tag1" class="form-control" name="tag1" placeholder="可选">
+        </div>
+        <div class="form-group">
+            <label for="tag2">添加标签2</label>
+            <input type="text" id="tag2" class="form-control" name="tag2" placeholder="可选">
+        </div>
+        <div class="form-group">
+            <label for="tag3">添加标签3</label>
+            <input type="text" id="tag3" class="form-control" name="tag3" placeholder="可选">
+        </div>
+        <div class="form-group">
+            <label for="short_content">简介</label>
+            <textarea type="text" id="short_content" class="form-control" name="short_content" placeholder="可选"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="content">内容</label>
+            <textarea  id="content" required class="textarea" name='content' placeholder="Place some text here"
+              style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+        </div>
+        <input type="submit" value="发布" class="btn btn-success float">
+    </form>
+</div>
+</div>
+{% endblock %}

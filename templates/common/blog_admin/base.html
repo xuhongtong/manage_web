@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    {% endblock %}
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        {% include 'common/blog_admin/nav.html' %}
+        {% include 'common/blog_admin/aside.html' %}
+        {% block content %}{% endblock %}
+        {% include 'common/blog_admin/footer.html' %}
+        <aside class="control-sidebar control-sidebar-dark"></aside>
+    </div>
+</body>
+</html>

@@ -17,14 +17,14 @@
                 <a class="navbar-brand" href="#">主页</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                {% if not username %}
+                {% if not session.get("username") %}
                     <li><a href="{{ url_for('user.register') }}"><span class="glyphicon glyphicon-user"></span> 注册</a>
                     </li>
                     <li><a href="{{ url_for('user.login') }}"><span class="glyphicon glyphicon-log-in"></span> 登录</a>
                     </li>
                 {% else %}
                     <li><a href="{{ url_for('user.home') }}"><span class="glyphicon glyphicon-user"></span>
-                        在线用户:{{ username }}</a></li>
+                        在线用户:{{ session.get("username") }}</a></li>
                     <li><a href="{{ url_for('user.logout') }}"><span class="glyphicon glyphicon-log-in"></span> 退出</a>
                     </li>
                 {% endif %}

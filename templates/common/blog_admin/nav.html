@@ -1,0 +1,12 @@
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <ul class="navbar-nav">
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{ url_for('user.home') }}" class="nav-link">在线用户:{{ session.get('username') }}</a>
+              </li>
+              <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{ url_for('user.logout') }}" class="nav-link">退出</a>
+              </li>
+        </ul>
+
+
+</nav>
