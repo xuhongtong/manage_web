@@ -1,16 +1,20 @@
-import os
-
 import redis
 from flask_ckeditor import CKEditor
 from flask_mail import Mail
+from flask_msearch import Search
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
-from config import mysql_info
+from flask_uploads import IMAGES, UploadSet, configure_uploads
+from whoosh.analysis import StemmingAnalyzer
+
+from config import mysql_info, WHOOSH_BASE, MAIL_USERNAME, MAIL_PASSWORD
 
 db = SQLAlchemy()
 mail = Mail()
 sess = Session()
 ckeditor = CKEditor()
+search = Search()
+photos = UploadSet('image')
 
 
 # 初始化数据库配置(SQLAlchemy)
@@ -28,9 +32,16 @@ def init_mail(app):
     app.config['MAIL_PORT'] = 465
     app.config['MAIL_USE_SSL'] = True
     app.config['MAIL_USE_TLS'] = False
-    app.config['MAIL_USERNAME'] = 'xxx'
-    app.config['MAIL_PASSWORD'] = 'xxx'
+    app.config['MAIL_USERNAME'] = MAIL_USERNAME
+    app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
     mail.init_app(app=app)
+
+
+# 初始化FlaskElasticsearch
+def init_WhooshAlchemy(app):
+    app.config['WHOOSH_BASE'] = WHOOSH_BASE
+    app.config['WHOOSH_ANALYZER'] = StemmingAnalyzer()
+    search.init_app(app)
 
 
 # session 配置(Session)
@@ -46,3 +57,12 @@ def init_session(app):
 # CKEditor配置
 def init_ckeditor(app):
     ckeditor.init_app(app=app)
+
+
+# uploads
+def init_uploads(app):
+    app.config['UPLOADS_DEFAULT_URL'] = '127.0.0.1:5000/'
+    app.config['UPLOADS_DEFAULT_DEST'] = 'static/uploads'
+    app.config['UPLOADED_PHOTO_ALLOW'] = IMAGES
+    app.config['ALLOWED_EXTENSIONS'] = ['.jpg', '.jpeg', '.png', '.gif']
+    configure_uploads(app, photos)

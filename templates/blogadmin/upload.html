@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="{{ url_for('blogadmin.upload') }}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file">上传头像
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>

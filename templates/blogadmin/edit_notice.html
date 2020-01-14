@@ -1,4 +1,4 @@
-{% extends 'common/blog_admin/base.html' %}
+{% extends 'blogadmin/common/base.html' %}
 {% block head %}
 <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,7 +45,7 @@
     </div>
 </section>
 <div class="card-body">
-    <form action="{{ url_for('blog.edit_notice') }}" method="post">
+    <form action="{{ url_for('blogadmin.edit_notice') }}" method="post">
         <div class="form-group">
             <label for="notice">编辑公告</label>
             <textarea type="text" id="notice" class="form-control" name="notice" placeholder="修改公告"></textarea>

@@ -1,4 +1,4 @@
-{% extends 'common/blog_admin/base.html' %}
+{% extends 'blogadmin/common/base.html' %}
 {% block head %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -74,12 +74,12 @@
                               </i>
                               查看
                           </a>
-                          <a class="btn btn-info btn-sm" href="{{url_for('blog.edit_category',id=category.id)}}">
+                          <a class="btn btn-info btn-sm" href="{{url_for('blogadmin.edit_category',id=category.id)}}">
                               <i class="fas fa-pencil-alt">
                               </i>
                               编辑
                           </a>
-                          <a class="btn btn-danger btn-sm" href="{{url_for('blog.del_category',id=category.id)}}">
+                          <a class="btn btn-danger btn-sm" href="{{url_for('blogadmin.del_category',id=category.id)}}">
                               <i class="fas fa-trash">
                               </i>
                               删除

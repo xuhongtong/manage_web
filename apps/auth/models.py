@@ -10,6 +10,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(80))
     email = db.Column(db.String(120), unique=True)
+    real_avator = db.Column(db.String(128), default=None)
     is_vaild = db.Column(db.Boolean, default=0)
 
     def generate_activate_token(self, expires_in=3600):

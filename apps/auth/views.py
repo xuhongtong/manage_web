@@ -30,6 +30,7 @@ def login_required(func):
             return func(*args, **kwargs)
         else:
             return redirect(url_for('user.login', next=request.url))
+
     return wrapper
 
 
@@ -80,10 +81,10 @@ def get_code():
 @user.route('/')
 @login_required
 def home():
-    return render_template('login/index.html',)
+    return render_template('login/index.html')
 
 
-# # 2.登录
+# 登录
 @user.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -102,7 +103,7 @@ def login():
                     if session.get('image').lower() == request.form.get('captcha'):
                         flash("成功登录！")
                         session['username'] = request.form.get('username')
-                        return redirect(url_for('blog.article'))
+                        return redirect(url_for('blogadmin.article'))
                     else:
                         error = '验证码错误'
                 else:
@@ -121,14 +122,14 @@ def login():
     return render_template('login/login.html', **content)
 
 
-# 3.注销
+# 注销
 @user.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect(url_for('user.home'))
 
 
-# # 4.注册
+# 注册
 @user.route('/register', methods=['GET', 'POST'])
 def register():
     error = None

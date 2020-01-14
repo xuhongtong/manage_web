@@ -1,9 +1,9 @@
 <header class="header-navigation" id="header">
-  <nav><div class="logo"><a href="/">杨青个人博客</a></div>
+  <nav><div class="logo"><a href="{{url_for('blog.home')}}">杨青个人博客</a></div>
     <h2 id="mnavh"><span class="navicon"></span></h2>
     <ul id="starlist">
       <li><a href="{{ url_for('blog.home') }}">首页</a></li>
-        <li><a href="{{ url_for('blog.index') }}">博客管理</a></li>
+        <li><a href="{{ url_for('blogadmin.article') }}">博客管理</a></li>
     </ul>
 </nav>
 </header>

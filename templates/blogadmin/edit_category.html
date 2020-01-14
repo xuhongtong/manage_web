@@ -1,4 +1,4 @@
-{% extends 'common/blog_admin/base.html' %}
+{% extends 'blogadmin/common/base.html' %}
 {% block head %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -42,7 +42,7 @@
     </section>
     <section class="content">
         <div class="card-body">
-            <form action="{{ url_for('blog.edit_category',id=category.id) }}" method="post">
+            <form action="{{ url_for('blogadmin.edit_category',id=category.id) }}" method="post">
                 <div class="form-group">
                     <label for="category"></label>
                     <input type="text" id="category" name=category class="form-control" value="{{ category.category }}">

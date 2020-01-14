@@ -1,4 +1,4 @@
-{% extends 'common/blog_admin/base.html' %}
+{% extends 'blogadmin/common/base.html' %}
 {% block head %}
 <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,7 +45,7 @@
     </div>
 </section>
 <div class="card-body">
-    <form action="{{ url_for('blog.add_article') }}" method="post">
+    <form action="{{ url_for('blogadmin.add_article') }}" method="post">
         <div class="form-group">
             <label for="inputName">标题</label>
             <input type="text" id="inputName" class="form-control" name="title" placeholder="必填" required>
