@@ -4,12 +4,12 @@
     {% block css %}
         <link rel="stylesheet" type="text/css"
               href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/my-login.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='login/css/my-login.css') }}">
     {% endblock %}
     {% block js %}
-        <script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='login/js/jquery.min.js') }}"></script>
         <script src="{{ url_for('static',filename='bootstrap/js/bootstrap.min.js') }}"></script>
-        <script src="{{ url_for('static',filename='js/my-login.js') }}"></script>
+        <script src="{{ url_for('static',filename='login/js/my-login.js') }}"></script>
     {% endblock %}
 {% endblock %}
 {% block content %}
@@ -22,13 +22,13 @@
                     </div>
                     <div class="card fat">
                         <div class="card-body">
-                            <h4 class="card-title">Login</h4>
+
                             {% if error %}
                                 <h4 class="card-title" style="color: red">{{ error }}</h4>
                             {% endif %}
                             <form action="{{ url_for('user.login') }}" method="POST">
                                 <div class="form-group">
-                                    <label for="name">Username</label>
+                                    <label for="name">用户名</label>
                                     {% if username %}
                                         <input id="name" type="text" class="form-control" name="username" required
                                                autofocus value="{{ username  }}">
@@ -43,16 +43,16 @@
                                     {% endif %}
                                 </div>
                                 <div class="form-group">
-                                    <label for="password">Password
+                                    <label for="password">密码
                                         <a href="{{ url_for('user.forget') }}" class="float-right">
-                                            Forgot Password?
+                                            忘记密码?
                                         </a>
                                     </label>
                                     <input id="password" type="password" class="form-control" name="password" required
                                            data-eye>
                                 </div>
                                 <div class="form-group">
-                                    <label for="captcha">Captcha</label>
+                                    <label for="captcha">验证码</label>
                                     <input id="captcha" type="text" class="form-control" name="captcha" required
                                            autofocus><img src="{{ url_for('user.get_code') }}"
                                                           onclick="this.src='{{ url_for("user.get_code") }}?'+Math.random()">
@@ -61,7 +61,7 @@
                                 <div class="form-group">
                                     <label>
                                         {% if not is_remember %}
-                                            <input type="checkbox" name="remember"> Remember Me
+                                            <input type="checkbox" name="remember"> 记住我
                                         {% else %}
                                             <input type="checkbox" name="remember" value="1" checked> Remember Me
                                         {% endif %}
@@ -69,11 +69,11 @@
                                 </div>
                                 <div class="form-group no-margin">
                                     <button type="submit" class="btn btn-primary btn-block">
-                                        Login
+                                        登录
                                     </button>
                                 </div>
                                 <div class="margin-top20 text-center">
-                                    Don't have an account? <a href={{ url_for('user.register') }}>Create One</a>
+                                    没有账号? <a href={{ url_for('user.register') }}>创建一个</a>
                                 </div>
                             </form>
                         </div>

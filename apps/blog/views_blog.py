@@ -1,6 +1,11 @@
-from flask import render_template, request
+import math
+
+from flask import render_template, request, flash, redirect, url_for
 from flask import Blueprint
-from apps.blog.models import Article, Category, Notice
+from flask_paginate import get_page_parameter, Pagination
+
+from apps.blog.models import Article, Category, Notice, Comment
+from apps.ext import db
 
 blog = Blueprint('blog', __name__, template_folder='templates', static_folder='static')
 
@@ -8,13 +13,28 @@ blog = Blueprint('blog', __name__, template_folder='templates', static_folder='s
 # 首页
 @blog.route('/blog')
 def home():
-    content = Article.query.filter(Article.is_delete == 0)
+    per_page=3
+    total=Article.query.count()
+    page=request.args.get(get_page_parameter(),type=int,default=1)
+    start=(page-1)*per_page
+    end=start+per_page
+    pagination=Pagination(bs_version=3,page=page,total=total)
+    pagination.per_page=3
+    pagination.numpages=math.ceil(pagination.total/pagination.per_page)
+    pagination.page_list = []
+    for i in range(0,pagination.numpages):
+        pagination.page_list.append(i+1)
+    pagination.has_next= True if pagination.page<pagination.numpages else False
+    pagination.before_page=pagination.page-1
+    pagination.after_page=pagination.page+1
+    articles=Article.query.filter(Article.is_delete == 0).slice(start,end)
     notice = Notice.query.filter(Notice.is_delete == 0).first()
     category_list = Category.query.filter(Category.is_delete == 0)
     content = {
-        'content': content,
+        'content': articles,
         'notice': notice,
-        'category_list': category_list
+        'category_list': category_list,
+        'pagination': pagination,
     }
     return render_template('blog/index.html', **content)
 
@@ -39,10 +59,12 @@ def info(id):
     article = Article.query.filter(Article.id == id).first()
     notice = Notice.query.filter(Notice.is_delete == 0).first(),
     category_list = Category.query.filter(Category.is_delete == 0)
+    comment_list=Comment.query.all()
     content = {
         'article': article,
         'notice': notice,
-        'category_list': category_list
+        'category_list': category_list,
+        'comment_list':comment_list
     }
     return render_template('blog/info.html', **content)
 
@@ -59,3 +81,16 @@ def w_search():
             'notice': notice
         }
         return render_template('blog/search.html', **content)
+
+# 添加评论
+@blog.route('/comment/<id>', methods=['GET', 'POST'])
+def add_comment(id):
+    if request.method == 'POST':
+        db.create_all()
+        content=request.form.get('content')
+        username=request.form.get('username')
+        c=Comment(content=content,nickname=username)
+        db.session.add(c)
+        db.session.commit()
+        flash('添加评论成功')
+        return redirect(url_for('blog.info',id=id))

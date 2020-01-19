@@ -1,6 +1,7 @@
 import redis
 from flask_ckeditor import CKEditor
 from flask_mail import Mail
+from flask_migrate import Migrate
 from flask_msearch import Search
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
@@ -15,6 +16,7 @@ sess = Session()
 ckeditor = CKEditor()
 search = Search()
 photos = UploadSet('image')
+migrate = Migrate()
 
 
 # 初始化数据库配置(SQLAlchemy)
@@ -23,7 +25,8 @@ def init_db(app):
         'SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{mysql_info["username"]}:{mysql_info["password"]}@{mysql_info["host"]}:{mysql_info["port"]}/{mysql_info["database"]}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     app.secret_key = '\xc9ixnRb\xe40\xd4\xa5\x7f\x03\xd0y6\x01\x1f\x96\xeao+\x8a\x9f\xe4'
-    db.init_app(app)
+    db.init_app(app=app)
+    migrate.init_app(app, db)
 
 
 # 初始化邮件配置(Mail)

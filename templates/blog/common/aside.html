@@ -1,10 +1,9 @@
-<aside>
-<div class="l_box" id="stickMe">
+<aside class="l_box">
   <div class="about_me">
     <h2>关于我</h2>
     <ul>
       <i><img src="{{ url_for('static',filename='blog/images/4.jpg') }}"></i>
-      <p><b>{{ session.get('username') }}</b>，{{notice.message}}</p>
+      <p><b>tom</b>，{{notice.message}}</p>
     </ul>
   </div>
   <div class="wdxc">
@@ -60,5 +59,4 @@
       <img src="{{ url_for('static',filename='blog/images/wx.jpg') }}">
     </ul>
   </div>
-</div>
 </aside>

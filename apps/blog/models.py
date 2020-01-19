@@ -47,9 +47,15 @@ class Notice(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now())
     is_delete = db.Column(db.Boolean, default=0)
 
-# # 图片
-# class Image(db.Model):
-#     __tablename__ = 'image'
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(256), unique=True)
-#     img_url = db.Column(db.String(256), unique=True)
+
+# 评论表
+class Comment(db.Model):
+    __tablename__ = 'comment'
+    id = db.Column(db.Integer, primary_key=True)
+    nickname=db.Column(db.String(64), nullable=True)
+    content = db.Column(db.String(512), nullable=True)
+    create_time = db.Column(db.DateTime, default=datetime.now())
+    # user_id = db.Column(db.Integer, db.ForeignKey('users.id'), index=True)  # 外键
+    # article_id = db.Column(db.Integer, db.ForeignKey('article.id'), index=True)  # 外键
+    # reply_id = db.Column(db.Integer, index=True)
+
