@@ -121,7 +121,6 @@ def login():
     }
     return render_template('login/login.html', **content)
 
-
 # 注销
 @user.route('/logout')
 def logout():

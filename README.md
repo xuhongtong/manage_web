@@ -4,7 +4,7 @@
 ## 功能需求
 - 1.用户认证系统：用户登录、注册、邮箱激活账号、密码找回、保持用户会话状态
 - 2.博客后台管理系统：文章和分类管理（添加、查看、编辑、删除），公告（添加或修改）、个人中心（设置或修改头像、用户名、邮箱、密码）
-- 3.博客展示：公共区（导航条、公告栏、搜索栏、分类栏、底部信息），首页（公共区、所有类别的文章列表）、分类页（公共区、指定类别的文章列表）、
+- 3.博客前端展示：公共区（导航条、公告栏、搜索栏、分类栏、底部信息），首页（公共区、所有类别的文章列表）、分类页（公共区、指定类别的文章列表）、
              搜索页（公共区、指定搜索的文章列表）、详情页（公共区、文章详细内容、评论区）
 
 ## 安全需求
@@ -91,8 +91,7 @@
 
 
 
-## 使用的flask插件
-
+## 使用的插件
 - jinja2（flask自带的模板语法引擎，用于渲染web网页）
 - Werkzeug（flask自带的WSGI工具包，用于收发web请求）
 - Flask-SQLAlchemy(第三方的ORM框架，用于操作数据库)
@@ -100,22 +99,22 @@
 - Flask-Mail（第三方的邮件服务器插件，用于提供收发邮件服务）
 - PyMySQL（第三方的mysql数据库连接引擎，提供flask框架与mysql数据库间的通信）
 - itsdangerous（第三方的生成临时身份令牌工具，用于提供网络传输的加解密安全验证服务）
-- session(flask自带缓存插件，将cookie存储至浏览器)
+- session(flask自带缓存插件，将cookie存储至服务器)
 - flask-session(第三方缓存插件，将cookie存储于服务器端，需配合session使用)
 - pillow(第三方图像库，用于实现图像归档和处理功能)
 - hashlib(python自带的哈希库，用于提供数据完整性校验服务)
 - Flask-CKEditor(富文本编辑器，用于长文本多格式书写)
-- summernote（jQuery文本编辑器）
+- EditThisCookie Chrome（用于查看和清除浏览器当前页面保存的cookie信息，包括session_id、过期时间等）
 - flask-msearch （提供全文检索服务）
 - flask_paginate(提供后端分页功能)
+- summernote（jQuery文本编辑器）
 
 ## 工具
 - chrome（用于访问网页）
-- EditThisCookie Chrome（用于查看和清除浏览器当前页面保存的cookie信息，包括session_id、过期时间等）
-- postman（用于模拟网页发送http表单请求）
 - pycharm（用于编写python代码）
-- Navicat Premium 12（mysql客户端，用于查看mysql数据存储情况）
-- RedisDesktopManager（redis客户端，用于查看redis数据存储情况）
+- postman（用于模拟网页发送http表单请求）
+- Navicat Premium 12（mysql客户端，用于图形化查看mysql数据存储情况）
+- RedisDesktopManager（redis客户端，用于图形化查看redis数据存储情况）
 - redis-4.0.6（redis服务端，用于提供redis存储服务）
 - MySQL Community Server-5.7.28（mysql服务端，用于提供mysql存储服务）
 - VMware Workstation 12 Pro（虚拟机，用于提供虚拟的linux操作系统，实现windows下安装linux环境）
