@@ -13,7 +13,6 @@ blogadmin = Blueprint('blogadmin', __name__, template_folder='templates', static
 def article():
     article_list = Article.query.filter(Article.is_delete == 0).all()
     user = User.query.filter(User.username == session.get('username')).first()
-    print(user.username)
     content={
         'article_list':article_list,
         'user':user

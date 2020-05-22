@@ -8,7 +8,7 @@ from apps.ext import db
 # 文章详情
 class Article(db.Model):
     __tablename__ = 'article'
-    __searchable__ = ['title', 'content']
+    __searchable__ = ['title', 'content']  # 搜索字段
     __analyzer__ = SimpleAnalyzer()
 
     id = db.Column(db.Integer, primary_key=True)
