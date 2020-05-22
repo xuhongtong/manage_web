@@ -140,16 +140,18 @@
 
 ## 页面展示
 ### 文章列表
-![image](https://github.com/xuhongtong/manage_web/show_photo/add_article.png)
+![image](https://github.com/xuhongtong/manage_web/blob/master/show_photo/article_list.png)
 
 ### 添加文章
-![image](https://github.com/xuhongtong/manage_web/show_photo/add_article.png)
+![image](https://github.com/xuhongtong/manage_web/blob/master/show_photo/add_article.png)
+
 
 ### 博客展示
-![image](https://github.com/xuhongtong/manage_web/show_photo/blog.png)
+![image](https://github.com/xuhongtong/manage_web/blob/master/show_photo/blog.png)
+
 
 #### 登录页面
-![image](https://github.com/xuhongtong/manage_web/show_photo/login.png)
+![image](https://github.com/xuhongtong/manage_web/blob/master/show_photo/login.png)
 
 
 
