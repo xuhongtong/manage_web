@@ -15,7 +15,7 @@ Flask-WhooshAlchemyPlus==0.7.4
 itsdangerous==1.1.0
 jieba==0.41
 Jinja2==2.10.3
-Mako==1.1.0
+Mako==1.2.2
 MarkupSafe==1.1.1
 Pillow==7.0.0
 PyMySQL==0.9.3
